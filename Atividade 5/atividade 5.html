@@ -1,0 +1,40 @@
+    <title>Atividade 5</title>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Atividade 5</title>
+        <link rel="stylesheet" href="atividade5.css">
+    </head>
+    <body>
+        <div class="color-box">
+            <h2 class="color-name"></h2>
+        </div>
+    
+        <script>
+            function mudarCor() {
+                const corNome = document.querySelector('.color-name');
+                const width = window.innerWidth;
+    
+                if (width <= 420) {
+                    corNome.textContent = "";
+                } else if (width > 420 && width <= 768) {
+                    corNome.textContent = "";
+                } else if (width > 768 && width <= 1024) {
+                    corNome.textContent = "";
+                } else if (width > 1024 && width <= 1080) {
+                    corNome.textContent = "";
+                } else if (width > 1080 && width <= 1366) {
+                    corNome.textContent = "";
+                } else if (width === 1920) {
+                    corNome.textContent = "";
+                } else {
+                    corNome.textContent = "";
+                }
+            }
+    
+            mudarCor();
+        </script>
+    </body>
+    </html>
