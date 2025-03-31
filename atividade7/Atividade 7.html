@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedra, Papel, Tesoura</title>
+  <link rel="stylesheet" href="rps.css">
+</head>
+<body>
+  <h1>Jogo Pedra, Papel ou Tesoura</h1>
+  
+  <div class="buttons">
+    <button onclick="Jogatina('pedra')">Pedra</button>
+    <button onclick="Jogatina('papel')">Papel</button>
+    <button onclick="Jogatina('tesoura')">Tesoura</button>
+  </div>
+
+  <div class="choices">
+    <p id="finalPlayer"></p>
+    <p id="finalPC"></p>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <script src="RPS.js"></script>
+</body>
+</html>
