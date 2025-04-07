@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesquisa de Opinião do Filme</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Pesquisa de Opinião do Filme</h1>
+  <form id="surveyForm">
+    <div>
+      <label for="idade">Idade:</label>
+      <input type="number" id="idade" required>
+    </div>
+    <div>
+      <label for="genero">Gênero:</label>
+      <select id="genero" required>
+        <option value="Feminino">Feminino</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </div>
+    <div>
+      <label for="nota">Sua nota:</label>
+      <select id="nota" required>
+        <option value="4">Ótimo</option>
+        <option value="3">Bom</option>
+        <option value="2">Regular</option>
+        <option value="1">Péssimo</option>
+      </select>
+    </div>
+    <button type="submit">Enviar Resposta</button>
+  </form>
+  <p><span id="mediaIdade"></span></p>
+  <p id="respostasFaltando">Ainda faltam preencher: 45 </p>
+
+  <h2>Respostas Recebidas</h2>
+  <table id="tabela">
+    <thead>
+      <tr>
+        <th>Idade</th>
+        <th>Gênero</th>
+        <th>Opinião</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+
+  <div id="results" style="display:none;">
+    <h2>Resultados da Pesquisa</h2>
+    <p><strong>Idade média:</strong> <span id="mediaIdade"></span></p>
+    <p><strong>Idade da pessoa mais velha:</strong> <span id="maiorIdade"></span></p>
+    <p><strong>Idade da pessoa mais nova:</strong> <span id="menorIdade"></span></p>
+    <p><strong>Pessoas que responderam "Péssimo":</strong> <span id="Pessimos"></span></p>
+    <p><strong>Porcentagem de pessoas que responderam "Ótimo" e "Bom":</strong> <span id="Porcentagem"></span></p>
+    <p><strong>Quantidade de mulheres, homens e outros:</strong></p>
+    <ul>
+      <li><strong>Mulheres:</strong> <span id="qtdMulher"></span></li>
+      <li><strong>Homens:</strong> <span id="qtdHomem"></span></li>
+      <li><strong>Outros:</strong> <span id="qtdOutros"></span></li>
+    </ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
