@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap');
+
+:root {
+  --primary-bg-color: #7c80b8;
+  --secondary-bg-color: #807182;
+  --font-color: rgba(0, 0, 0, 0.8);
+  --font-family: 'Montserrat', sans-serif;
+  --form-border-color: rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  font-family: var(--font-family);
+  color: var(--font-color);
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://wallpapers.com/images/hd/blue-film-reel-95lvqpuyozhyrhqm.jpg') center/cover no-repeat;
+  z-index: -3;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -2;
+}
+
+.container {
+  background: var(--primary-bg-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--font-color);
+  text-align: center;
+}
+
+.radio-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  justify-content: center;
+}
+
+.radio-group input[type="radio"] {
+  display: none;
+}
+
+.radio-group label {
+  background: #fff;
+  border: 1px solid var(--form-border-color);
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+}
+
+.radio-group input[type="radio"]:checked + label {
+  background: var(--secondary-bg-color);
+  background: #323a68;
+  border-color: var(--secondary-bg-color);
+  color: white;
+}
+
+.opiniao {
+  margin-top: 5px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.btnResetar {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 10px;
+}
+
+form {
+  display: grid;
+  gap: 15px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input, select {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--form-border-color);
+  border-radius: 4px;
+  font-family: var(--font-family);
+  background: #fff;
+  color: var(--font-color);
+}
+
+button {
+  background: var(--secondary-bg-color);
+  background: #323a68;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #171A2B;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+#resultado, #contagem {
+  margin-top: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid var(--form-border-color);
+}
+
+#resetar:hover {
+    background: #171A2B;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+#resetar {
+  margin-top: 15px;
+  background: #323a68;
+  color: white;
+  border: 1px solid var(--secondary-bg-color);
+}
+
+
+@media (max-width: 640px) {
+  .container {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  .radio-group {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .radio-group label {
+    width: 100%;
+    text-align: center;
+  }
+
+  .btnResetar {
+    justify-content: center;
+  }
+}
