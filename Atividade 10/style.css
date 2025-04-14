@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+    width: 300px;
+    margin-bottom: 30px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #5c4d9d;
+  }
+  
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #a278e6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #7e57c2;
+  }
+  
+  #resultado {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .tabela-container {
+    width: 300px;
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+  }
+  
+  .tabela-container h2 {
+    text-align: center;
+    color: #5c4d9d;
+  }
+  
+  .tabela-imc {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  
+  .tabela-imc th,
+  .tabela-imc td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .tabela-imc thead {
+    background-color: #a278e6;
+    color: white;
+  }
+  
+  .tabela-imc tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
