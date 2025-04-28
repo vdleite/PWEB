@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Atividade 11</title>
+</head>
+<body>
+    <h1>Atividade 11</h1>
+
+    <script>
+        // Forma 1: Objeto Literal
+        const funcionarioLiteral = {
+            matricula: '001',
+            nome: 'Victor Domingues',
+            funcao: 'Estagiario'
+        };
+
+        console.log('Objeto Literal');
+        console.log('Matrícula:', funcionarioLiteral.matricula);
+        console.log('Nome:', funcionarioLiteral.nome);
+        console.log('Função:', funcionarioLiteral.funcao);
+        console.log(' ');
+
+        // Forma 2: Função Construtora
+        function Funcionario(matricula, nome, funcao) {
+            this.matricula = matricula;
+            this.nome = nome;
+            this.funcao = funcao;
+        }
+
+        const funcionarioConstrutor = new Funcionario('002', 'Clara', 'Estagiaria');
+
+        console.log('Função Construtora');
+        console.log('Matrícula:', funcionarioConstrutor.matricula);
+        console.log('Nome:', funcionarioConstrutor.nome);
+        console.log('Função:', funcionarioConstrutor.funcao);
+        console.log(' ');
+
+        // Forma 3: Classe 
+        class FuncionarioClasse {
+            constructor(matricula, nome, funcao) {
+                this.matricula = matricula;
+                this.nome = nome;
+                this.funcao = funcao;
+            }
+        }
+
+        const funcionarioClasse = new FuncionarioClasse('003', 'Pasquale', 'Motorista');
+
+        console.log('Classe');
+        console.log('Matrícula:', funcionarioClasse.matricula);
+        console.log('Nome:', funcionarioClasse.nome);
+        console.log('Função:', funcionarioClasse.funcao);
+        console.log(' ');
+    </script>
+    
+</body>
+</html>
