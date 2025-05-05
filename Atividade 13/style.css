@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2em;
+    color: #333;
+  }
+  
+  h2 {
+    font-size: 1.5em;
+    text-decoration: line-through
+  }
+  
+  h3 {
+    font-size: 0.5em;
+  }
+
+  #container {
+    display: inline-block;
+    position: relative;
+  }
+  
+  #janela {
+    width: 400px;
+    height: auto;
+    cursor: pointer;
+    border: 2px solid #ccc;
+  }
+  
+  #chatbox {
+    margin-top: 15px;
+    background: #fff;
+    padding: 10px 20px
+  }
+  
