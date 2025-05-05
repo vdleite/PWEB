@@ -1,0 +1,15 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 30px;
+  }
+  
+  label {
+    margin-right: 20px;
+  }
+  
+  input[type="text"] {
+    width: 300px;
+    padding: 8px;
+    margin-bottom: 20px;
+  }
+  
