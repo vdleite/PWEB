@@ -1,0 +1,36 @@
+body {
+    background-color: #535d5f;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    color: #000;
+  }
+  
+  form {
+    background-color: #00cfff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 400px;
+    margin: auto;
+  }
+  
+  h2 {
+    text-align: center;
+    color: white;
+    font-size: 24px;
+  }
+  
+  label {
+    font-style: italic;
+  }
+  
+  fieldset {
+    border: none;
+    padding: 10px 0;
+  }
+  
+  #resposta {
+    font-weight: bold;
+    color: white;
+    text-align: center;
+  }
+  

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Atividade 15</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <form name="formulario1" onsubmit="validar(event)">
+    <h2>Formulário Principal</h2>
+
+    <label for="inputName">Nome:</label>
+    <input type="text" name="inputName" id="inputName"><br><br>
+
+    <label for="inputEmail">E-mail:</label>
+    <input type="email" name="inputEmail" id="inputEmail"><br><br>
+
+    <label for="inputComentario">Comentário:</label><br>
+    <textarea name="inputComentario" id="inputComentario" rows="5" cols="30"></textarea><br><br>
+
+    <fieldset>
+      <legend>Pesquisa:</legend>
+      Primeira vez nesta página?<br>
+      <input type="radio" name="pesquisa" value="sim"> Sim
+      <input type="radio" name="pesquisa" value="nao"> Não
+    </fieldset><br>
+
+    <input type="submit" value="Enviar">
+    <input type="reset" value="Limpar" onclick="limpar()"><br><br>
+
+    <p id="resposta"></p>
+  </form>
+</body>
+</html>
