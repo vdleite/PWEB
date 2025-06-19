@@ -1,0 +1,152 @@
+body, h1, h2, h3, p, ul, li, a, div, section, header, footer, main, nav, button, input {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #fff;
+    line-height: 1.4;
+}
+
+header {
+    background-color: #000;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    font-size: 1.2rem;
+    color: #00c853;
+}
+
+nav a {
+    color: #fff;
+    margin-left: 1rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.8rem;
+    color: #888;
+    background-color: #000;
+}
+
+.form-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-reviews {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.card-filme {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 1rem;
+    text-align: center;
+    max-width: 250px;
+    transition: transform 0.2s;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+.card-filme:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px #00c853;
+}
+
+.card-filme img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 0.8rem;
+    object-fit: cover;
+}
+
+.card-filme h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #00c853;
+}
+
+.card-filme p {
+    font-size: 0.85rem;
+    color: #eee;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background-color: #1e1e1e;
+    padding: 1.5rem;
+    border-radius: 10px;
+    color: white;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 15px #00c853;
+}
+
+.popup button {
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.popup .edit-btn {
+    background-color: #00c853;
+    color: white;
+}
+
+.popup .delete-btn {
+    background-color: #d50000;
+    color: white;
+}
+
+.popup .cancel-btn {
+    background-color: #555;
+    color: white;
+}

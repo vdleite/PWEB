@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minha Lista de Filmes</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="filmes.css" />
+</head>
+<body>
+  <header>
+     <h1><a href="filmes.html" style="color: #00c853; text-decoration: none;">Minha Lista de Filmes</a></h1>
+    <nav id="navLinks"></nav>
+  </header>
+
+ <main class="form-container">
+  <h2>ㅤ</h2>
+  
+  <div class="search-area">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Buscar filmes e séries"
+      class="search-input"
+    />
+    <button
+      id="btnSearch"
+      class="btn-search"
+    >
+      🔍
+    </button>
+  </div>
+
+  <section class="grid-filmes" id="containerFilmes"></section>
+  <div id="containerVerMais" class="ver-mais-container"></div>
+</main>
+
+  <footer>
+    © 2025 Victor Domingues Leite - ADS MANHÃ - FATEC Sorocaba - Projeto para a disciplina PWEB
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const nav = document.getElementById("navLinks");
+      if (!nav) return;
+
+      nav.innerHTML = "";
+
+      const criarLink = (href, texto, onClick) => {
+        const a = document.createElement("a");
+        a.href = href;
+        a.textContent = texto;
+        if (onClick) a.addEventListener("click", onClick);
+        return a;
+      };
+
+      const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+      const logout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem("usuarioLogado");
+        alert("Você saiu da conta.");
+        window.location.href = "filmes.html";
+      };
+
+      nav.appendChild(criarLink("filmes.html", "Home"));
+
+      if (usuarioLogado) {
+        nav.appendChild(criarLink("perfil.html", "Minhas Análises"));
+        nav.appendChild(criarLink("#", "Sair", logout));
+      } else {
+        nav.appendChild(criarLink("cadastro.html", "Cadastrar"));
+        nav.appendChild(criarLink("login.html", "Login"));
+      }
+
+      const CHAVE_API = "9bbf7d734588f0a01ba0510c39e7e786";
+      let paginaAtual = 1;
+      const qtdFilmesPorPagina = 12;
+
+      function addCard(filme) {
+        const card = document.createElement("div");
+        card.className = "card-filme";
+        card.innerHTML = `
+          <img src="https://image.tmdb.org/t/p/w200${filme.poster_path}" alt="${filme.title}" />
+          <p>${filme.title}</p>
+        `;
+        card.addEventListener("click", () => {
+          localStorage.setItem("filmeSelecionado", JSON.stringify(filme));
+          window.location.href = "nova-review.html";
+        });
+        return card;
+      }
+
+      function filmesPop(pagina = 1) {
+        fetch(
+          `https://api.themoviedb.org/3/movie/popular?api_key=${CHAVE_API}&language=pt-BR&page=${pagina}`
+        )
+          .then((res) => res.json())
+          .then((dados) => {
+            const container = document.getElementById("containerFilmes");
+            if (pagina === 1) container.innerHTML = "";
+
+            const filmesExibir = dados.results.slice(0, qtdFilmesPorPagina);
+            filmesExibir.forEach((filme) => {
+              container.appendChild(addCard(filme));
+            });
+          })
+          .catch(() => {
+            const container = document.getElementById("containerFilmes");
+            container.innerHTML = "<p>Erro ao carregar os filmes.</p>";
+          });
+      }
+
+      function searchMovies() {
+        const query = document.getElementById("searchInput").value.trim();
+        const container = document.getElementById("containerFilmes");
+        container.innerHTML = "";
+        document.getElementById("containerVerMais").innerHTML = "";
+
+        if (!query) {
+          paginaAtual = 1;
+          filmesPop(paginaAtual);
+          addMais();
+          return;
+        }
+
+        fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${CHAVE_API}&query=${encodeURIComponent(
+            query
+          )}&language=pt-BR`
+        )
+          .then((res) => res.json())
+          .then((dados) => {
+            if (!dados.results || dados.results.length === 0) {
+              container.innerHTML = "<p>Nenhum filme encontrado.</p>";
+              return;
+            }
+            dados.results.forEach((filme) => {
+              container.appendChild(addCard(filme));
+            });
+          })
+          .catch(() => {
+            container.innerHTML = "<p>Erro ao buscar filmes.</p>";
+          });
+      }
+
+      function addMais() {
+        const container = document.getElementById("containerVerMais");
+        container.innerHTML = "";
+
+        const btn = document.createElement("button");
+        btn.textContent = "Ver mais";
+        btn.classList.add("btnVerMais");
+        btn.onclick = () => {
+          paginaAtual++;
+          filmesPop(paginaAtual);
+        };
+        container.appendChild(btn);
+      }
+
+      document.getElementById("btnSearch").addEventListener("click", searchMovies);
+      document.getElementById("searchInput").addEventListener("keyup", (e) => {
+        if (e.key === "Enter") searchMovies();
+      });
+
+      filmesPop(paginaAtual);
+      addMais();
+    });
+  </script>
+</body>
+</html>

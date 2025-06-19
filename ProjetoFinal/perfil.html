@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu Perfil</title>
+    <link rel="stylesheet" href="perfil.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="filmes.css" />
+
+</head>
+
+<body>
+    <header>
+        <h1><a href="filmes.html" style="color: #00c853; text-decoration: none;">Minha Lista de Filmes</a></h1>
+        <nav id="navLinks"></nav>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const nav = document.getElementById("navLinks");
+                nav.innerHTML = "";
+
+                const criarLink = (href, texto, onClick) => {
+                    const a = document.createElement("a");
+                    a.href = href;
+                    a.textContent = texto;
+                    if (onClick) a.addEventListener("click", onClick);
+                    return a;
+                };
+
+                nav.appendChild(criarLink("filmes.html", "Home"));
+
+                const sair = criarLink("#", "Sair", (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem("usuarioLogado");
+                    alert("Você saiu da conta.");
+                    location.href = "filmes.html";
+                });
+                nav.appendChild(sair);
+            });
+        </script>
+    </header>
+
+    <main class="form-container">
+        <h2 style="text-align: center;">Minhas Análises</h2>
+        <section class="grid-filmes" id="reviews"></section>
+    </main>
+
+    <footer>
+        © 2025 Victor Domingues Leite - ADS MANHÃ - FATEC Sorocaba - Projeto para a disciplina PWEB
+    </footer>
+
+    <script>
+        const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+        const container = document.getElementById("reviews");
+
+        function salvarReviews(usuarioEmail, reviews) {
+            const all = JSON.parse(localStorage.getItem("reviewsPorUsuario")) || {};
+            all[usuarioEmail] = reviews;
+            localStorage.setItem("reviewsPorUsuario", JSON.stringify(all));
+        }
+
+        function formatarDataParaPTBR(dataISO) {
+            if (!dataISO) return '';
+            const partes = dataISO.split('-');
+            if (partes.length !== 3) return dataISO;
+            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+
+        function criarPopup(review, index, reviews) {
+            const dataFormatada = formatarDataParaPTBR(review.data);
+            const overlay = document.createElement("div");
+            overlay.className = "popup-overlay";
+            overlay.innerHTML = `
+        <div class="popup">
+          <h3>${review.titulo}</h3>
+          <p><strong>Avaliação:</strong> ${review.avaliacao} ★</p>
+          <p><strong>Assistido em:</strong> ${dataFormatada}</p>
+          <p><strong>Análise:</strong></p>
+          <p style="white-space: pre-wrap; text-align: justify;">${review.analise}</p>
+          <div>
+            <button class="edit-btn">Editar</button>
+            <button class="delete-btn">Excluir</button>
+            <button class="cancel-btn">Cancelar</button>
+          </div>
+        </div>
+      `;
+            document.body.appendChild(overlay);
+
+            overlay.querySelector(".cancel-btn").onclick = () => overlay.remove();
+
+            overlay.querySelector(".delete-btn").onclick = () => {
+                if (confirm(`Deseja realmente excluir a análise de "${review.titulo}"?`)) {
+                    reviews.splice(index, 1);
+                    salvarReviews(usuarioLogado.email, reviews);
+                    overlay.remove();
+                    location.reload();
+                }
+            };
+
+            overlay.querySelector(".edit-btn").onclick = () => {
+                localStorage.setItem("edicaoReview", JSON.stringify({ review, index }));
+                localStorage.setItem("filmeSelecionado", JSON.stringify({
+                    id: review.tmdbId || review.id || null,
+                    title: review.titulo,
+                    overview: review.sinopse,
+                    release_date: review.ano ? review.ano + "-01-01" : "",
+                    poster_path: review.poster ? review.poster.replace("https://image.tmdb.org/t/p/w300", "") : "",
+                    genero: review.genero || "",
+                    classificacao: review.classificacao || ""
+                }));
+                overlay.remove();
+                location.href = "nova-review.html";
+            };
+        }
+
+        if (!usuarioLogado || !usuarioLogado.email) {
+            container.innerHTML = "<p>Você precisa estar logado para ver suas análises.</p>";
+        } else {
+            const allReviews = JSON.parse(localStorage.getItem("reviewsPorUsuario")) || {};
+            const minhasReviews = allReviews[usuarioLogado.email] || [];
+
+            if (minhasReviews.length === 0) {
+                container.innerHTML = "<p>Você ainda não fez nenhuma análise.</p>";
+            } else {
+                minhasReviews.forEach((review, i) => {
+                    const dataFormatada = formatarDataParaPTBR(review.data);
+                    const card = document.createElement("div");
+                    card.className = "card-filme";
+                    card.style.cursor = "pointer";
+
+                    card.innerHTML = `
+            <img src="${review.poster || 'https://via.placeholder.com/200x300?text=Sem+Imagem'}" alt="${review.titulo}">
+            <h3>${review.titulo}</h3>
+            <p><strong>Avaliação:</strong> ${review.avaliacao} ★</p>
+            <p><strong>Assistido em:</strong> ${dataFormatada}</p>
+          `;
+
+                    card.addEventListener("click", () => criarPopup(review, i, minhasReviews));
+                    container.appendChild(card);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="cadastro.css" />
+</head>
+
+<body>
+    <header>
+        <h1><a href="filmes.html" style="color: #00c853; text-decoration: none;">Minha Lista de Filmes</a></h1>
+        <nav id="navLinks"></nav>
+    </header>
+
+    <main class="form-container">
+        <img src="https://i.pinimg.com/736x/ad/57/b1/ad57b11e313616c7980afaa6b9cc6990.jpg" alt="Ícone usuário"
+            class="form-icon">
+        <h2>NOVA CONTA</h2>
+        <form id="cadastro-form">
+            <input type="text" id="usuario" placeholder="Nome de usuário" required>
+            <input type="password" id="senha" placeholder="Senha" required>
+            <input type="password" id="confirmar" placeholder="Confirme sua Senha" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <p class="login-link-text">
+            Já possui uma conta? <a href="login.html" class="login-link">Entre aqui</a>
+        </p>
+    </main>
+
+    <footer>
+        Criado por: Victor Domingues Leite - ADS MANHÃ - FATEC Sorocaba - Projeto para a disciplina PWEB
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const nav = document.getElementById("navLinks");
+
+            nav.innerHTML = "";
+
+            const criarLink = (href, texto) => {
+                const a = document.createElement("a");
+                a.href = href;
+                a.textContent = texto;
+                return a;
+            };
+
+            nav.appendChild(criarLink("filmes.html", "Home"));
+            nav.appendChild(criarLink("login.html", "Login"));
+
+            const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+            if (usuarioLogado && usuarioLogado.usuario) {
+                window.location.href = "filmes.html";
+            }
+        });
+
+        document.getElementById('cadastro-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const usuario = document.getElementById('usuario').value.trim();
+            const senha = document.getElementById('senha').value;
+            const confirmar = document.getElementById('confirmar').value;
+
+            if (senha !== confirmar) {
+                alert("As senhas não coincidem!");
+                return;
+            }
+
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            if (usuarios.some(u => u.usuario === usuario)) {
+                alert("Esse nome de usuário já está cadastrado.");
+                return;
+            }
+
+            const novoUsuario = { usuario, senha };
+            usuarios.push(novoUsuario);
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            localStorage.setItem('usuarioLogado', JSON.stringify(novoUsuario));
+
+            alert("Usuário cadastrado e logado com sucesso!");
+            event.target.reset();
+
+            window.location.href = "filmes.html";
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nova Review</title>
+    <link rel="stylesheet" href="nova-review.css" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header>
+        <h1><a href="filmes.html" style="color: #00c853; text-decoration: none;">Minha Lista de Filmes</a></h1>
+        <nav id="navLinks"></nav>
+    </header>
+
+    <h2 class="review-title">CADASTRAR REVIEW</h2>
+
+    <main class="grid-review">
+        <img id="poster" src="https://via.placeholder.com/200x300?text=Sem+Imagem" alt="Poster do filme"
+            class="poster" />
+
+        <div class="field name-field">
+            <label for="titulo">Filme</label>
+            <input type="text" id="titulo" readonly />
+        </div>
+
+        <div class="field genre-field">
+            <label for="genero">Gênero</label>
+            <input type="text" id="genero" readonly />
+        </div>
+
+        <div class="field classification-field">
+            <label for="classificacao">Classificação</label>
+            <input type="text" id="classificacao" readonly />
+        </div>
+
+        <div class="field synopsis-field">
+            <label for="sinopse">Sinopse</label>
+            <textarea id="sinopse" rows="4" readonly></textarea>
+        </div>
+
+        <div class="field year-full">
+            <label for="ano">Ano de Lançamento</label>
+            <input type="number" id="ano" readonly />
+        </div>
+
+        <div class="field stars-field">
+            <label>Avaliação</label>
+            <div class="nota">
+                <input type="radio" id="nota5" name="estrela" value="5" />
+                <label for="nota5">★</label>
+                <input type="radio" id="nota4" name="estrela" value="4" />
+                <label for="nota4">★</label>
+                <input type="radio" id="nota3" name="estrela" value="3" />
+                <label for="nota3">★</label>
+                <input type="radio" id="nota2" name="estrela" value="2" />
+                <label for="nota2">★</label>
+                <input type="radio" id="nota1" name="estrela" value="1" />
+                <label for="nota1">★</label>
+            </div>
+        </div>
+
+        <div class="field date-field">
+            <label for="data">Assistido em</label>
+            <input type="date" id="data" />
+
+
+        </div>
+
+        <div class="field analysis-field">
+            <label for="analise">Sua Análise</label>
+            <textarea id="analise" placeholder="Escreva sua análise"></textarea>
+        </div>
+
+        <button class="submit-btn">Enviar Análise</button>
+    </main>
+
+    <footer>
+        Criado por: Victor Domingues Leite - ADS MANHÃ - FATEC Sorocaba - Projeto para a disciplina PWEB
+    </footer>
+
+    <script>
+        const apiKey = '9bbf7d734588f0a01ba0510c39e7e786';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tituloInput = document.getElementById('titulo');
+            const sinopseInput = document.getElementById('sinopse');
+            const anoInput = document.getElementById('ano');
+            const posterImg = document.getElementById('poster');
+            const generoInput = document.getElementById('genero');
+            const classificacaoInput = document.getElementById('classificacao');
+            const analiseInput = document.getElementById('analise');
+            const dataInput = document.getElementById('data');
+            const estrelaNota = document.querySelectorAll('input[name="estrela"]');
+
+            const filmeSelecionado = JSON.parse(localStorage.getItem('filmeSelecionado'));
+            const edicaoReview = JSON.parse(localStorage.getItem('edicaoReview'));
+
+            const dados = edicaoReview?.review || filmeSelecionado;
+
+            if (!dados) {
+                alert('Nenhum filme selecionado para review.');
+                window.location.href = 'filmes.html';
+                return;
+            }
+
+            tituloInput.value = dados.title || dados.titulo || '';
+            sinopseInput.value = dados.overview || dados.sinopse || '';
+            anoInput.value = dados.release_date?.split('-')[0] || dados.ano || '';
+            posterImg.src = dados.poster_path
+                ? 'https://image.tmdb.org/t/p/w300' + dados.poster_path
+                : dados.poster || 'https://via.placeholder.com/200x300?text=Sem+Imagem';
+
+            generoInput.value = dados.genero || '';
+            classificacaoInput.value = dados.classificacao || '';
+
+            async function preencherExtras(id) {
+                try {
+                    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=pt-BR&append_to_response=release_dates`);
+                    const detalhes = await res.json();
+
+                    if (detalhes.genres && detalhes.genres.length > 0) {
+                        generoInput.value = detalhes.genres.map(g => g.name).join(', ');
+                    }
+
+                    const brRelease = detalhes.release_dates?.results?.find(r => r.iso_3166_1 === 'BR');
+                    if (brRelease?.release_dates?.length > 0) {
+                        classificacaoInput.value = brRelease.release_dates[0].certification || classificacaoInput.value || 'Livre';
+                    }
+                } catch (error) {
+                    console.warn('Erro ao buscar gênero/classificação:', error);
+                }
+            }
+
+            if (dados.id) {
+                preencherExtras(dados.id);
+            }
+
+            if (edicaoReview) {
+                const { avaliacao, data, analise } = edicaoReview.review;
+                if (avaliacao) {
+                    estrelaNota.forEach(r => r.checked = r.value === avaliacao);
+                }
+                dataInput.value = data || '';
+                analiseInput.value = analise || '';
+            }
+
+            localStorage.removeItem('filmeSelecionado');
+            localStorage.removeItem('edicaoReview');
+        });
+
+        document.querySelector('.submit-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuario) {
+                alert('Você precisa estar logado.');
+                return;
+            }
+
+            const titulo = document.getElementById('titulo').value;
+            const genero = document.getElementById('genero').value;
+            const classificacao = document.getElementById('classificacao').value;
+            const sinopse = document.getElementById('sinopse').value;
+            const ano = document.getElementById('ano').value;
+            const poster = document.getElementById('poster').src;
+            const avaliacao = document.querySelector('input[name="estrela"]:checked')?.value;
+            const data = document.getElementById('data').value;
+            const analise = document.getElementById('analise').value;
+
+            if (!avaliacao || !data || !analise.trim()) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+
+            const id = titulo.toLowerCase().replace(/\s+/g, '-');
+            const allReviews = JSON.parse(localStorage.getItem('reviewsPorUsuario')) || {};
+            const userReviews = allReviews[usuario.email] || [];
+
+            const index = userReviews.findIndex(r => r.id === id);
+
+            const novaReview = { id, titulo, genero, classificacao, sinopse, ano, poster, avaliacao, data, analise };
+
+            if (index >= 0) userReviews[index] = novaReview;
+            else userReviews.push(novaReview);
+
+            allReviews[usuario.email] = userReviews;
+localStorage.setItem('reviewsPorUsuario', JSON.stringify(allReviews));
+
+            alert('Review salva com sucesso!');
+            window.location.href = 'perfil.html';
+        });
+    </script>
+</body>
+
+</html>
